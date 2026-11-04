@@ -134,7 +134,7 @@ a.addEventListener('ended',function(){load(k+1);play()});a.addEventListener('pla
 load(0);play(true);
 function first(){if(a.paused&&!off)play();['pointerdown','touchstart','keydown','scroll'].forEach(function(e){window.removeEventListener(e,first,true)})}
 ['pointerdown','touchstart','keydown','scroll'].forEach(function(e){window.addEventListener(e,first,true)});
-b.addEventListener('click',function(e){e.stopPropagation();if(a.paused){off=false;play()}else{off=true;a.pause()}ui()});
+b.addEventListener('click',function(e){e.stopPropagation();if(a.paused){off=false;held=false;[].forEach.call(document.querySelectorAll('video'),function(v){v.muted=true});play()}else{off=true;a.pause()}ui()});
 // Pause the soundtrack while a video plays with sound, resume afterwards.
 document.addEventListener('play',function(e){var v=e.target;if(v.tagName=="VIDEO"&&!v.muted){held=true;a.pause()}},true);
 document.addEventListener('volumechange',function(e){var v=e.target;if(v.tagName!="VIDEO")return;if(!v.muted&&!v.paused){held=true;a.pause()}else if(v.muted){held=false;play()}},true);
