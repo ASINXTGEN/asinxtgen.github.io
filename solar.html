@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Solar Vehicle Prototype (2021) | YoungMoneyFuture’s™ ASI NXTGEN</title>
+<meta name="description" content="Build and field-test log of a solar-assisted vehicle prototype, August to October 2021: flexible panel array, MPPT charge control, and logged power readings."/>
+<meta property="og:title" content="Solar Vehicle Prototype (2021) | ASI NXTGEN"/><meta property="og:image" content="https://asinxtgen.github.io/media/solar/solar-01.jpg"/>
+<meta name="theme-color" content="#03060d"/><link rel="icon" type="image/png" href="/favicon.png?v=asi03"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Space+Grotesk:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--b:#2EA8FF;--c:#00D4FF;--d:#0B4FD8;--bg:#03060d;--t:#EEF6FF;--dim:rgba(220,236,255,.6);--line:rgba(46,168,255,.22)}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--t);font-family:'Space Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(1200px 600px at 80% -10%,rgba(11,79,216,.25),transparent 60%),radial-gradient(900px 500px at -10% 30%,rgba(0,212,255,.08),transparent 60%),var(--bg)}
+a{color:var(--b)}.w{width:min(1180px,92vw);margin:0 auto}
+header{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+.top{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--t)}.top img{width:42px;height:42px;border-radius:50%;box-shadow:0 0 14px rgba(46,168,255,.5)}
+.top b{font-family:Orbitron;letter-spacing:.06em}.top b span{color:var(--b)}
+.back{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;color:var(--t);border:1px solid var(--line);padding:9px 14px;border-radius:999px}.back:hover{border-color:var(--b);color:var(--b)}
+.tag{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.25em;color:var(--c);text-transform:uppercase;display:flex;align-items:center;gap:10px;margin:30px 0 12px}
+.tag i{width:8px;height:8px;border-radius:50%;background:#3BFF8A;box-shadow:0 0 10px #3BFF8A}
+h1{font-family:Orbitron;font-weight:900;text-transform:uppercase;font-size:clamp(30px,6vw,64px);line-height:1.02;margin:0;letter-spacing:.01em}
+h1 span{background:linear-gradient(90deg,var(--b),var(--c));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{max-width:760px;color:var(--dim);font-weight:300;font-size:clamp(16px,2vw,19px);line-height:1.65;margin:18px 0 0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:34px 0 30px}
+.stat{border:1px solid var(--line);background:rgba(8,14,28,.7);padding:18px 18px 16px;position:relative;overflow:hidden}
+.stat:before{content:"";position:absolute;left:0;top:0;height:2px;width:100%;background:linear-gradient(90deg,var(--d),var(--c))}
+.stat b{display:block;font-family:Orbitron;font-size:clamp(20px,3vw,30px);font-weight:800;color:var(--t)}
+.stat small{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.viewer{border:1px solid var(--line);background:#000;position:relative}
+.vbar{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--line);font-family:'JetBrains Mono';font-size:11.5px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;background:rgba(8,14,28,.9)}
+.vbar .ctl{display:flex;gap:8px}.vbar button{background:none;border:1px solid var(--line);color:var(--t);font:inherit;letter-spacing:.12em;padding:6px 10px;cursor:pointer;border-radius:4px}.vbar button:hover{border-color:var(--b);color:var(--b)}
+.stage{position:relative;aspect-ratio:16/10;max-height:78vh;width:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000;touch-action:pan-y}
+.stage img,.stage video{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;animation:fade .45s ease}
+@keyframes fade{from{opacity:0;transform:scale(1.015)}to{opacity:1;transform:none}}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:1px solid rgba(46,168,255,.5);background:rgba(3,6,13,.6);color:var(--t);font-size:22px;cursor:pointer;z-index:3;backdrop-filter:blur(4px)}.nav:hover{background:var(--d)}
+.prev{left:14px}.next{right:14px}
+.badge{position:absolute;top:14px;left:14px;z-index:3;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:5px 10px;background:rgba(3,6,13,.75);border:1px solid var(--line);color:var(--c)}
+.prog{height:2px;background:rgba(46,168,255,.15)}.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--d),var(--c))}
+.cap{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:16px 18px;background:rgba(8,14,28,.9);border-top:1px solid var(--line)}
+.cap p{margin:0;font-size:16px;line-height:1.5}.cap time{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.14em;color:var(--dim);white-space:nowrap;text-transform:uppercase}
+.strip{display:flex;gap:8px;overflow-x:auto;padding:14px 0 6px;scrollbar-width:thin}
+.th{flex:0 0 auto;width:112px;height:72px;border:1px solid var(--line);background:#000 center/cover no-repeat;cursor:pointer;position:relative;opacity:.55;transition:.2s}
+.th:hover{opacity:.9}.th.on{opacity:1;border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 0 16px rgba(0,212,255,.35)}
+.th.v:after{content:"▶";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;text-shadow:0 0 8px #000}
+.notes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:34px 0}
+.note{border:1px solid var(--line);padding:20px;background:rgba(8,14,28,.6)}.note h3{font-family:Orbitron;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--b);margin:0 0 8px}.note p{margin:0;color:var(--dim);font-weight:300;line-height:1.6;font-size:15px}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:22px 0 40px;font-size:13px;color:rgba(220,236,255,.5);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}footer a{color:var(--t);text-decoration:none}footer a:hover{color:var(--b)}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.notes{grid-template-columns:1fr}.stage{aspect-ratio:4/5}.nav{width:40px;height:40px}.cap{flex-direction:column;gap:6px}.th{width:88px;height:58px}}
+</style></head><body>
+<div class="w">
+<header><a class="top" href="/"><img src="/logo.webp?v=asi03" alt="ASI NXTGEN logo"/><b><span>ASI</span> NXTGEN</b></a><a class="back" href="/#live">&larr; Back to Lab</a></header>
+
+<div class="tag"><i></i>PRJ-009 · Energy · Completed 2021</div>
+<h1>Solar Vehicle <span>Prototype</span></h1>
+<p class="lead">A solar-assisted vehicle built and field-tested on a production sedan between July and October 2021: a flexible photovoltaic array on the windshield and hood, an MPPT charge controller, and an inline power analyzer logging real output on the road, in the rain, and at night.</p>
+
+<div class="stats">
+<div class="stat"><b>118.2 W</b><small>Live output logged</small></div>
+<div class="stat"><b>273.3 Wh</b><small>Energy logged in one session</small></div>
+<div class="stat"><b>MPPT</b><small>Charge control</small></div>
+<div class="stat"><b>Jul–Oct ’21</b><small>Build &amp; field tests</small></div>
+</div>
+
+<div class="viewer" id="viewer">
+<div class="vbar"><span id="count">01 / 19</span><span class="ctl"><button id="play" type="button">Pause</button><button id="fs" type="button">Full screen</button></span></div>
+<div class="stage" id="stage"><button class="nav prev" id="prev" aria-label="Previous">&#8249;</button><span class="badge" id="badge">Photo</span><div id="slot"></div><button class="nav next" id="next" aria-label="Next">&#8250;</button></div>
+<div class="prog"><i id="bar"></i></div>
+<div class="cap"><p id="cap"></p><time id="date"></time></div>
+</div>
+<div class="strip" id="strip"></div>
+
+<div class="notes">
+<div class="note"><h3>Array</h3><p>Flexible monocrystalline panels mounted first across the windshield, then refined into a two-panel hood array with polarity-marked series and parallel wiring.</p></div>
+<div class="note"><h3>Power electronics</h3><p>MPPT solar charge controller (16–50 V input) feeding the onboard system, with a high-precision watt meter logging volts, amps, watts and watt-hours.</p></div>
+<div class="note"><h3>Field testing</h3><p>Road tests, heavy-rain exposure, and night-time readouts to check output, sealing and wiring under real conditions.</p></div>
+</div>
+
+<footer><span>© 2026 YoungMoneyFuture’s™ ASI NXTGEN</span><span><a href="/">Home</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a></span></footer>
+</div>
+<script>
+// Order set by the founder: windshield photo, windshield video, driving, rain, night watt meter, then the rest in date order, founder photo last.
+var M="/media/solar/",S=[
+{t:"i",f:"solar-01",c:"Flexible panels strapped across the windshield for a dusk test by the water",d:"Aug 27, 2021"},
+{t:"v",f:"solar-v1",c:"Windshield array on site",d:"Aug 27, 2021"},
+{t:"v",f:"solar-v2",c:"Road test behind the wheel",d:"Jul 31, 2021"},
+{t:"v",f:"solar-v3",c:"Weather test: driving in heavy rain",d:"Jul 3, 2021"},
+{t:"v",f:"solar-v4",c:"Night readout: 19.29 V, 1.56 A, 273.3 Wh logged",d:"Sep 21, 2021"},
+{t:"i",f:"solar-02",c:"Panels taped and sealed across the windshield",d:"Aug 28, 2021"},
+{t:"i",f:"solar-03",c:"Two-panel array moved to the hood",d:"Aug 28, 2021"},
+{t:"i",f:"solar-04",c:"Hood array, front view",d:"Aug 28, 2021"},
+{t:"i",f:"solar-05",c:"MPPT controller charge display under load",d:"Sep 12, 2021"},
+{t:"i",f:"solar-06",c:"Power analyzer: 18.28 V, 4.99 A, 91.2 W, 112.9 W peak",d:"Sep 19, 2021"},
+{t:"i",f:"solar-07",c:"Night check of the power analyzer and wiring",d:"Sep 25, 2021"},
+{t:"i",f:"solar-08",c:"Inline watt meter on the hood array lead",d:"Sep 29, 2021"},
+{t:"i",f:"solar-09",c:"Connecting the meter at the panel junction",d:"Sep 29, 2021"},
+{t:"i",f:"solar-10",c:"MPPT solar charge controller, 16–50 V input",d:"Oct 1, 2021"},
+{t:"i",f:"solar-11",c:"Hood array wiring plan, polarity marked",d:"Oct 2, 2021"},
+{t:"i",f:"solar-12",c:"Series and parallel layout on the hood",d:"Oct 2, 2021"},
+{t:"v",f:"solar-v5",c:"Live output: 40.37 V, 2.93 A, 118.2 W",d:"Oct 2, 2021"},
+{t:"i",f:"solar-13",c:"Weatherproof lead routed into the cabin",d:"Oct 2, 2021"},
+{t:"i",f:"solar-14",c:"The builder 😎",d:"2022"}];
+var i=0,playing=true,timer=null,slot=document.getElementById('slot'),bar=document.getElementById('bar'),strip=document.getElementById('strip');
+function pad(n){return(n<10?"0":"")+n}
+S.forEach(function(s,k){var b=document.createElement('button');b.type="button";b.className="th"+(s.t=="v"?" v":"");b.style.backgroundImage="url("+M+s.f+"-t.jpg)";b.setAttribute('aria-label',s.c);b.onclick=function(){go(k)};strip.appendChild(b)});
+function clear(){clearTimeout(timer);bar.style.transition="none";bar.style.width="0"}
+function go(k){clear();i=(k+S.length)%S.length;var s=S[i],el;
+ if(s.t=="v"){el=document.createElement('video');el.src=M+s.f+".mp4";el.poster=M+s.f+"-t.jpg";el.controls=true;el.playsInline=true;el.muted=true;el.preload="metadata";if(playing)el.autoplay=true;el.onended=function(){if(playing)go(i+1)};el.ontimeupdate=function(){if(el.duration)bar.style.width=(el.currentTime/el.duration*100)+"%"}}
+ else{el=document.createElement('img');el.src=M+s.f+".jpg";el.alt=s.c;if(playing){requestAnimationFrame(function(){requestAnimationFrame(function(){bar.style.transition="width 5s linear";bar.style.width="100%"})});timer=setTimeout(function(){go(i+1)},5000)}}
+ slot.innerHTML="";slot.appendChild(el);
+ document.getElementById('cap').textContent=s.c;document.getElementById('date').textContent=s.d;
+ document.getElementById('badge').textContent=s.t=="v"?"Video":"Photo";
+ document.getElementById('count').textContent=pad(i+1)+" / "+pad(S.length);
+ [].forEach.call(strip.children,function(c,n){c.classList.toggle('on',n==i)});var a=strip.children[i];strip.scrollTo({left:a.offsetLeft-strip.clientWidth/2+a.clientWidth/2,behavior:'smooth'});
+ var n=S[(i+1)%S.length];if(n.t=="i"){new Image().src=M+n.f+".jpg"}}
+document.getElementById('prev').onclick=function(){go(i-1)};document.getElementById('next').onclick=function(){go(i+1)};
+document.getElementById('play').onclick=function(){playing=!playing;this.textContent=playing?"Pause":"Play";go(i)};
+document.getElementById('fs').onclick=function(){var v=document.getElementById('viewer');if(document.fullscreenElement)document.exitFullscreen();else if(v.requestFullscreen)v.requestFullscreen();else if(v.webkitRequestFullscreen)v.webkitRequestFullscreen()};
+document.addEventListener('keydown',function(e){if(e.key=="ArrowRight")go(i+1);if(e.key=="ArrowLeft")go(i-1)});
+var sx=null,st=document.getElementById('stage');st.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});st.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>45)go(i+(dx<0?1:-1));sx=null});
+go(0);
+</script>
+</body></html>
