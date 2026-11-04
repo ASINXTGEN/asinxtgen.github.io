@@ -60,7 +60,7 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:22px 0 40px;font
 </div>
 
 <div class="viewer" id="viewer">
-<div class="vbar"><span id="count">01 / 19</span><span class="ctl"><button id="play" type="button">Pause</button><button id="fs" type="button">Full screen</button></span></div>
+<div class="vbar"><span id="count">01 / 20</span><span class="ctl"><button id="play" type="button">Pause</button><button id="fs" type="button">Full screen</button></span></div>
 <div class="stage" id="stage"><button class="nav prev" id="prev" aria-label="Previous">&#8249;</button><span class="badge" id="badge">Photo</span><div id="slot"></div><button class="nav next" id="next" aria-label="Next">&#8250;</button></div>
 <div class="prog"><i id="bar"></i></div>
 <div class="cap"><p id="cap"></p><time id="date"></time></div>
@@ -76,7 +76,7 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:22px 0 40px;font
 <footer><span>© 2026 YoungMoneyFuture’s™ ASI NXTGEN</span><span><a href="/">Home</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a></span></footer>
 </div>
 <script>
-// Order set by the founder: windshield photo, windshield video, driving, rain, night watt meter, then the rest in date order, founder photo last.
+// Order set by the founder: windshield photo, windshield video, driving, rain, night watt meter, then the rest in date order, founder photo, then the v2 joke slide last.
 var M="/media/solar/",S=[
 {t:"i",f:"solar-01",c:"Flexible panels strapped across the windshield for a dusk test by the water",d:"Aug 27, 2021"},
 {t:"v",f:"solar-v1",c:"Windshield array on site",d:"Aug 27, 2021"},
@@ -96,7 +96,8 @@ var M="/media/solar/",S=[
 {t:"i",f:"solar-12",c:"Series and parallel layout on the hood",d:"Oct 2, 2021"},
 {t:"v",f:"solar-v5",c:"Live output: 40.37 V, 2.93 A, 118.2 W",d:"Oct 2, 2021"},
 {t:"i",f:"solar-13",c:"Weatherproof lead routed into the cabin",d:"Oct 2, 2021"},
-{t:"i",f:"solar-14",c:"The builder 😎",d:"2022"}];
+{t:"i",f:"solar-14",c:"The builder 😎",d:"2022"},
+{t:"i",f:"solar-15",c:"Version 2: same sun, fewer speed limits ☀️🚀",d:"Coming soon"}];
 var i=0,playing=true,timer=null,slot=document.getElementById('slot'),bar=document.getElementById('bar'),strip=document.getElementById('strip');
 function pad(n){return(n<10?"0":"")+n}
 S.forEach(function(s,k){var b=document.createElement('button');b.type="button";b.className="th"+(s.t=="v"?" v":"");b.style.backgroundImage="url("+M+s.f+"-t.jpg)";b.setAttribute('aria-label',s.c);b.onclick=function(){go(k)};strip.appendChild(b)});
