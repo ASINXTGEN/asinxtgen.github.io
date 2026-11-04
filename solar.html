@@ -26,7 +26,8 @@ h1 span{background:linear-gradient(90deg,var(--b),var(--c));-webkit-background-c
 .stat small{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
 .viewer{border:1px solid var(--line);background:#000;position:relative}
 .vbar{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--line);font-family:'JetBrains Mono';font-size:11.5px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;background:rgba(8,14,28,.9)}
-.vbar .ctl{display:flex;gap:8px}.vbar button{background:none;border:1px solid var(--line);color:var(--t);font:inherit;letter-spacing:.12em;padding:6px 10px;cursor:pointer;border-radius:4px}.vbar button:hover{border-color:var(--b);color:var(--b)}
+.vbar .ctl{display:flex;gap:8px}
+.music{position:fixed;right:18px;bottom:18px;z-index:50;display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono';font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(3,6,13,.85);border:1px solid rgba(46,168,255,.55);padding:10px 14px;border-radius:999px;cursor:pointer;backdrop-filter:blur(6px);box-shadow:0 0 18px rgba(0,212,255,.25);max-width:80vw}.music:hover{border-color:#00D4FF}.music .eq{display:flex;gap:2px;align-items:flex-end;height:12px}.music .eq i{width:3px;background:#00D4FF;height:4px}.music.on .eq i{animation:eq .9s ease-in-out infinite}.music.on .eq i:nth-child(2){animation-delay:-.3s}.music.on .eq i:nth-child(3){animation-delay:-.6s}@keyframes eq{0%,100%{height:3px}50%{height:12px}}.music span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.vbar button{background:none;border:1px solid var(--line);color:var(--t);font:inherit;letter-spacing:.12em;padding:6px 10px;cursor:pointer;border-radius:4px}.vbar button:hover{border-color:var(--b);color:var(--b)}
 .stage{position:relative;aspect-ratio:16/10;max-height:78vh;width:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000;touch-action:pan-y}
 .stage img,.stage video{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;animation:fade .45s ease}
 @keyframes fade{from{opacity:0;transform:scale(1.015)}to{opacity:1;transform:none}}
@@ -75,6 +76,8 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:22px 0 40px;font
 
 <footer><span>© 2026 YoungMoneyFuture’s™ ASI NXTGEN</span><span><a href="/">Home</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a></span></footer>
 </div>
+<button class="music" id="music" type="button" aria-label="Toggle music"><span class="eq"><i></i><i></i><i></i></span><span id="mtitle">♪ Tap for music</span></button>
+<audio id="bgm" preload="auto"></audio>
 <script>
 // Order set by the founder: windshield photo, windshield video, driving, rain, night watt meter, then the rest in date order, founder photo, then the v2 joke slide last.
 var M="/media/solar/",S=[
@@ -102,7 +105,7 @@ var i=0,playing=true,timer=null,slot=document.getElementById('slot'),bar=documen
 function pad(n){return(n<10?"0":"")+n}
 S.forEach(function(s,k){var b=document.createElement('button');b.type="button";b.className="th"+(s.t=="v"?" v":"");b.style.backgroundImage="url("+M+s.f+"-t.jpg)";b.setAttribute('aria-label',s.c);b.onclick=function(){go(k)};strip.appendChild(b)});
 function clear(){clearTimeout(timer);bar.style.transition="none";bar.style.width="0"}
-function go(k){clear();i=(k+S.length)%S.length;var s=S[i],el;
+function go(k){clear();if(window.bgmResume)window.bgmResume();i=(k+S.length)%S.length;var s=S[i],el;
  if(s.t=="v"){el=document.createElement('video');el.src=M+s.f+".mp4";el.poster=M+s.f+"-t.jpg";el.controls=true;el.playsInline=true;el.muted=true;el.preload="metadata";if(playing)el.autoplay=true;el.onended=function(){if(playing)go(i+1)};el.ontimeupdate=function(){if(el.duration)bar.style.width=(el.currentTime/el.duration*100)+"%"}}
  else{el=document.createElement('img');el.src=M+s.f+".jpg";el.alt=s.c;if(playing){requestAnimationFrame(function(){requestAnimationFrame(function(){bar.style.transition="width 5s linear";bar.style.width="100%"})});timer=setTimeout(function(){go(i+1)},5000)}}
  slot.innerHTML="";slot.appendChild(el);
@@ -117,5 +120,22 @@ document.getElementById('fs').onclick=function(){var v=document.getElementById('
 document.addEventListener('keydown',function(e){if(e.key=="ArrowRight")go(i+1);if(e.key=="ArrowLeft")go(i-1)});
 var sx=null,st=document.getElementById('stage');st.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});st.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>45)go(i+(dx<0?1:-1));sx=null});
 go(0);
+
+// Background soundtrack: always starts with Ride With Sunshine, then Solar Hybrid Prototype, looping.
+(function(){var T=[{f:"ride-with-sunshine.mp3",n:"Ride With Sunshine"},{f:"solar-hybrid-prototype.mp3",n:"Solar Hybrid Prototype"}],k=0,a=document.getElementById('bgm'),b=document.getElementById('music'),tt=document.getElementById('mtitle'),off=false,held=false;
+a.volume=.6;function load(n){k=n%T.length;a.src=M+T[k].f;}
+function ui(){var on=!a.paused;b.classList.toggle('on',on);tt.textContent=on?"♪ "+T[k].n:(off?"♪ Music off":"♪ Tap for music")}
+function play(){if(off||held)return;var p=a.play();if(p&&p.catch)p.catch(function(){ui()})}
+a.addEventListener('ended',function(){load(k+1);play()});a.addEventListener('play',ui);a.addEventListener('pause',ui);
+load(0);play();
+function first(){if(a.paused&&!off)play();['pointerdown','touchstart','keydown','scroll'].forEach(function(e){window.removeEventListener(e,first,true)})}
+['pointerdown','touchstart','keydown','scroll'].forEach(function(e){window.addEventListener(e,first,true)});
+b.addEventListener('click',function(e){e.stopPropagation();if(a.paused){off=false;play()}else{off=true;a.pause()}ui()});
+// Pause the soundtrack while a video plays with sound, resume afterwards.
+document.addEventListener('play',function(e){var v=e.target;if(v.tagName=="VIDEO"&&!v.muted){held=true;a.pause()}},true);
+document.addEventListener('volumechange',function(e){var v=e.target;if(v.tagName!="VIDEO")return;if(!v.muted&&!v.paused){held=true;a.pause()}else if(v.muted){held=false;play()}},true);
+window.bgmResume=function(){if(held){held=false;play()}};
+['pause','ended','emptied'].forEach(function(ev){document.addEventListener(ev,function(e){if(e.target.tagName=="VIDEO"&&held){held=false;play()}},true)});
+})();
 </script>
 </body></html>
