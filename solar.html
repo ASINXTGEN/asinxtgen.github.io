@@ -102,7 +102,7 @@ var M="/media/solar/",S=[
 {t:"v",f:"solar-v5",c:"Live output: 40.37 V, 2.93 A, 118.2 W",d:"Oct 2, 2021"},
 {t:"i",f:"solar-13",c:"Weatherproof lead routed into the cabin",d:"Oct 2, 2021"},
 {t:"i",f:"solar-14",c:"The builder 😎",d:"2022"},
-{t:"i",f:"solar-15",c:"Version 2: same sun, fewer speed limits ☀️🚀",d:"Coming soon"}];
+{t:"i",f:"solar-15",c:"Let's get some extra juice from that Sunny Sun!🚀☀️",d:"Coming soon"}];
 var i=0,playing=true,timer=null,slot=document.getElementById('slot'),bar=document.getElementById('bar'),strip=document.getElementById('strip');
 function pad(n){return(n<10?"0":"")+n}
 S.forEach(function(s,k){var b=document.createElement('button');b.type="button";b.className="th"+(s.t=="v"?" v":"");b.style.backgroundImage="url("+M+s.f+"-t.jpg)";b.setAttribute('aria-label',s.c);b.onclick=function(){go(k)};strip.appendChild(b)});
