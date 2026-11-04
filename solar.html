@@ -27,6 +27,7 @@ h1 span{background:linear-gradient(90deg,var(--b),var(--c));-webkit-background-c
 .viewer{border:1px solid var(--line);background:#000;position:relative}
 .vbar{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--line);font-family:'JetBrains Mono';font-size:11.5px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;background:rgba(8,14,28,.9)}
 .vbar .ctl{display:flex;gap:8px}
+.gate{position:fixed;inset:0;z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:radial-gradient(800px 500px at 50% 40%,rgba(11,79,216,.45),rgba(3,6,13,.97) 70%);cursor:pointer;text-align:center;padding:24px}.gate.show{display:flex}.gate img{width:96px;height:96px;border-radius:50%;box-shadow:0 0 40px rgba(0,212,255,.6);animation:pulse 2.2s ease-in-out infinite}@keyframes pulse{50%{box-shadow:0 0 70px rgba(0,212,255,.95)}}.gate h2{font-family:Orbitron;font-weight:900;text-transform:uppercase;font-size:clamp(22px,5vw,40px);margin:0;letter-spacing:.04em}.gate h2 span{color:#2EA8FF}.gate p{margin:0;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:#00D4FF}.gate b{font-family:'JetBrains Mono';font-size:13px;letter-spacing:.2em;text-transform:uppercase;padding:14px 26px;border-radius:999px;background:linear-gradient(90deg,#0B4FD8,#00D4FF);color:#fff;box-shadow:0 0 24px rgba(0,212,255,.45)}
 .music{position:fixed;right:18px;bottom:18px;z-index:50;display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono';font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(3,6,13,.85);border:1px solid rgba(46,168,255,.55);padding:10px 14px;border-radius:999px;cursor:pointer;backdrop-filter:blur(6px);box-shadow:0 0 18px rgba(0,212,255,.25);max-width:80vw}.music:hover{border-color:#00D4FF}.music .eq{display:flex;gap:2px;align-items:flex-end;height:12px}.music .eq i{width:3px;background:#00D4FF;height:4px}.music.on .eq i{animation:eq .9s ease-in-out infinite}.music.on .eq i:nth-child(2){animation-delay:-.3s}.music.on .eq i:nth-child(3){animation-delay:-.6s}@keyframes eq{0%,100%{height:3px}50%{height:12px}}.music span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.vbar button{background:none;border:1px solid var(--line);color:var(--t);font:inherit;letter-spacing:.12em;padding:6px 10px;cursor:pointer;border-radius:4px}.vbar button:hover{border-color:var(--b);color:var(--b)}
 .stage{position:relative;aspect-ratio:16/10;max-height:78vh;width:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000;touch-action:pan-y}
 .stage img,.stage video{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;animation:fade .45s ease}
@@ -76,6 +77,7 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:22px 0 40px;font
 
 <footer><span>© 2026 YoungMoneyFuture’s™ ASI NXTGEN</span><span><a href="/">Home</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a></span></footer>
 </div>
+<div class="gate" id="gate" role="button" aria-label="Enter with sound"><img src="/logo.webp?v=asi03" alt=""/><h2>Solar Hybrid <span>Prototype</span></h2><p>Sound on ☀️</p><b>Tap to enter</b></div>
 <button class="music" id="music" type="button" aria-label="Toggle music"><span class="eq"><i></i><i></i><i></i></span><span id="mtitle">♪ Tap for music</span></button>
 <audio id="bgm" preload="auto"></audio>
 <script>
@@ -125,9 +127,11 @@ go(0);
 (function(){var T=[{f:"ride-with-sunshine.mp3",n:"Ride With Sunshine"},{f:"solar-hybrid-prototype.mp3",n:"Solar Hybrid Prototype"}],k=0,a=document.getElementById('bgm'),b=document.getElementById('music'),tt=document.getElementById('mtitle'),off=false,held=false;
 a.volume=.6;function load(n){k=n%T.length;a.src=M+T[k].f;}
 function ui(){var on=!a.paused;b.classList.toggle('on',on);tt.textContent=on?"♪ "+T[k].n:(off?"♪ Music off":"♪ Tap for music")}
-function play(){if(off||held)return;var p=a.play();if(p&&p.catch)p.catch(function(){ui()})}
+var g=document.getElementById('gate');
+function play(gate){if(off||held)return;var p=a.play();if(p&&p.then)p.then(function(){g.classList.remove('show')}).catch(function(){ui();if(gate===true)g.classList.add('show')})}
+g.addEventListener('click',function(e){e.stopPropagation();g.classList.remove('show');off=false;a.play().catch(function(){});ui()});
 a.addEventListener('ended',function(){load(k+1);play()});a.addEventListener('play',ui);a.addEventListener('pause',ui);
-load(0);play();
+load(0);play(true);
 function first(){if(a.paused&&!off)play();['pointerdown','touchstart','keydown','scroll'].forEach(function(e){window.removeEventListener(e,first,true)})}
 ['pointerdown','touchstart','keydown','scroll'].forEach(function(e){window.addEventListener(e,first,true)});
 b.addEventListener('click',function(e){e.stopPropagation();if(a.paused){off=false;play()}else{off=true;a.pause()}ui()});
