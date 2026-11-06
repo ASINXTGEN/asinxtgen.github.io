@@ -262,6 +262,10 @@ footer{border-top:1px solid var(--line);padding:56px 0 36px;background:linear-gr
 }
 @media (max-width:560px){.cards{grid-template-columns:1fr}.hero .actions .btn{width:100%;justify-content:center}.brand small{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+.neon-log{color:#5FE1FF!important;font-weight:600;text-decoration:none;text-shadow:0 0 4px #00D4FF,0 0 10px #00D4FF,0 0 20px #2EA8FF,0 0 34px #0B4FD8;animation:neonPulse 2.4s ease-in-out infinite;white-space:nowrap}
+.neon-log:hover{color:#fff!important;text-shadow:0 0 6px #fff,0 0 14px #00D4FF,0 0 28px #00D4FF,0 0 44px #2EA8FF}
+@keyframes neonPulse{0%,100%{text-shadow:0 0 4px #00D4FF,0 0 10px #00D4FF,0 0 20px #2EA8FF,0 0 34px #0B4FD8}50%{text-shadow:0 0 2px #00D4FF,0 0 6px #00D4FF,0 0 12px #2EA8FF,0 0 20px #0B4FD8}}
+@media (prefers-reduced-motion:reduce){.neon-log{animation:none}}
 </style>
 </head>
 <body>
@@ -402,7 +406,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 36px;background:linear-gr
         <div class="t-item rv"><div class="t-date">2023</div><div class="t-box"><h3>Early Access XR</h3><p>Early access to mixed reality hardware and developer tools.</p></div></div>
         <div class="t-item rv"><div class="t-date">2022</div><div class="t-box"><h3>Early Access AI Model Testing</h3><p>Pre-release evaluation of generative AI models for image and text.</p></div></div>
         <div class="t-item rv"><div class="t-date">2022</div><div class="t-box"><h3>XR Software Development</h3><p>Built and tested immersive VR and AR software experiences.</p></div></div>
-        <div class="t-item rv"><div class="t-date">2021</div><div class="t-box"><h3>Solar Vehicle Prototype</h3><p>Built and field-tested a solar-assisted vehicle: roof and hood array, MPPT control, road, rain and night tests. <a href="/solar.html">See the build log &#8599;</a></p></div></div>
+        <div class="t-item rv"><div class="t-date">2021</div><div class="t-box"><h3>Solar Vehicle Prototype</h3><p>Built and field-tested a solar-assisted vehicle: roof and hood array, MPPT control, road, rain and night tests. <a class="neon-log" href="/solar.html">See the build log &#8599;</a></p></div></div>
         <div class="t-item rv"><div class="t-date">2021</div><div class="t-box"><h3>Early Access AI Model Testing</h3><p>Early access testing of AI models and developer APIs.</p></div></div>
         <div class="t-item rv"><div class="t-date">2020</div><div class="t-box"><h3>Early Access AI Model Testing</h3><p>Pre-release testing and feedback on emerging AI models.</p></div></div>
         <div class="t-item rv"><div class="t-date">2020</div><div class="t-box"><h3>Early Access XR</h3><p>Early access to standalone VR hardware and SDKs.</p></div></div>
